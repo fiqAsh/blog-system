@@ -1,6 +1,10 @@
 import express from "express";
 
 import db from "./db/connectMysqlDB.js";
+import authroutes from "./routes/auth.routes.js";
+import createUsersTable from "./models/user.model.js";
+
+createUsersTable();
 
 const app = express();
 
@@ -9,6 +13,8 @@ app.use(express.json());
 app.get("/", (req, res) => {
 	res.send("server is running");
 });
+
+app.use("/api/auth", authroutes);
 
 const PORT = 5000;
 

@@ -1,6 +1,6 @@
 import db from "../db/connectMysqlDB.js";
 
-export const createUsersTable = () => {
+const createUsersTable = () => {
 	const query = `
     CREATE TABLE IF NOT EXISTS users (
     username VARCHAR(255) NOT NULL,
@@ -18,3 +18,5 @@ export const createUsersTable = () => {
 		}
 	});
 };
+
+export default createUsersTable;
