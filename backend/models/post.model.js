@@ -1,5 +1,25 @@
 import db from "../db/connectMysqlDB.js";
 
-export const createPostTable = () => {
-	const query = `CREATE TABLE IF NOT EXISTS posts()`;
+const createPostsTable = () => {
+	const query = `
+    CREATE TABLE IF NOT EXISTS posts (
+        postID VARCHAR(16) PRIMARY KEY,
+        title VARCHAR(255) NOT NULL,
+        description TEXT NOT NULL,
+        picture VARCHAR(255),
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    )
+  `;
+
+	db.query(query, (err, result) => {
+		if (err) {
+			console.error("Error creating Posts table:", err.message);
+		} else {
+			console.log("Posts table created successfully.");
+		}
+	});
 };
+
+createPostsTable();
+
+export default createPostsTable;

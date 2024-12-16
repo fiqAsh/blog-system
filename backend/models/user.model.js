@@ -3,10 +3,12 @@ import db from "../db/connectMysqlDB.js";
 const createUsersTable = () => {
 	const query = `
     CREATE TABLE IF NOT EXISTS users (
-    username VARCHAR(255) NOT NULL,
-    email VARCHAR(255) NOT NULL UNIQUE PRIMARY KEY,
-    password VARCHAR(255) NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, usertype VARCHAR(255)
+        username VARCHAR(255) NOT NULL,
+        email VARCHAR(255) NOT NULL UNIQUE PRIMARY KEY,
+        password VARCHAR(255) NOT NULL,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        usertype VARCHAR(255) DEFAULT 'user',
+        userposts INT DEFAULT 0
     )
   `;
 
@@ -18,5 +20,7 @@ const createUsersTable = () => {
 		}
 	});
 };
+
+createUsersTable();
 
 export default createUsersTable;
