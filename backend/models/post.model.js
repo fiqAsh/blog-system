@@ -4,10 +4,12 @@ const createPostsTable = () => {
 	const query = `
     CREATE TABLE IF NOT EXISTS posts (
         postID VARCHAR(16) PRIMARY KEY,
+        userID VARCHAR(255) NOT NULL, 
         title VARCHAR(255) NOT NULL,
         description TEXT NOT NULL,
         picture VARCHAR(255),
-        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        FOREIGN KEY (userID) REFERENCES users(email) ON DELETE CASCADE -- Maintain relationship
     )
   `;
 

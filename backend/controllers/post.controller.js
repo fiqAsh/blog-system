@@ -2,23 +2,23 @@ import db from "../db/connectMysqlDB.js";
 import { generatePostID } from "../utils/generatePostId.js";
 
 export const createPost = (req, res) => {
-	const { title, description, picture } = req.body; // Expects only title, description, and picture from req.body
-	const postID = generatePostID(); // Generate random 10-character ID
+	const { userID, title, description, picture } = req.body; // Include userID in the request
+	const postID = generatePostID(); // Generate random 16-character postID
 
-	const insertQuery = `INSERT INTO posts (postID, title, description, picture) VALUES (?, ?, ?, ?)`;
+	const insertQuery = `INSERT INTO posts (postID, userID, title, description, picture) VALUES (?, ?, ?, ?, ?)`;
 
 	db.query(
 		insertQuery,
-		[postID, title, description, picture],
+		[postID, userID, title, description, picture],
 		(err, result) => {
 			if (err) {
-				console.error("Error inserting post:", err.message);
+				console.error("Error creating post:", err.message);
 				return res.status(500).json({ error: "Failed to create post" });
 			}
 
 			res.status(201).json({
 				message: "Post created successfully",
-				postId: postID, // Return the generated postID to the client
+				postID: postID, // Return the generated postID to the client
 			});
 		}
 	);
@@ -34,6 +34,25 @@ export const getPost = (req, res) => {
 		}
 
 		res.status(200).json(results);
+	});
+};
+
+export const getUserPosts = (req, res) => {
+	const { userID } = req.params; // Use userID from the request parameters
+
+	const selectQuery = "SELECT * FROM posts WHERE userID = ?";
+
+	db.query(selectQuery, [userID], (err, results) => {
+		if (err) {
+			console.error("Error fetching posts:", err.message);
+			return res.status(500).json({ error: "Failed to fetch posts" });
+		}
+
+		if (results.length === 0) {
+			return res.status(404).json({ error: "No posts found for this user" });
+		}
+
+		res.status(200).json(results); // Return all posts for the user
 	});
 };
 
