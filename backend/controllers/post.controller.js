@@ -19,6 +19,7 @@ export const createPost = (req, res) => {
 			res.status(201).json({
 				message: "Post created successfully",
 				postID: postID, // Return the generated postID to the client
+				userID: userID,
 			});
 		}
 	);
@@ -57,14 +58,14 @@ export const getUserPosts = (req, res) => {
 };
 
 export const updatePost = (req, res) => {
-	const { postId } = req.params;
+	const { postID } = req.params;
 	const { title, description, picture } = req.body;
 
 	const updateQuery = `UPDATE posts SET title = ?, description = ?, picture = ? WHERE postID = ?`;
 
 	db.query(
 		updateQuery,
-		[title, description, picture, postId],
+		[title, description, picture, postID],
 		(err, result) => {
 			if (err) {
 				console.error("Error updating post:", err.message);
@@ -81,11 +82,11 @@ export const updatePost = (req, res) => {
 };
 
 export const deletePost = (req, res) => {
-	const { postId } = req.params;
+	const { postID } = req.params;
 
 	const deleteQuery = "DELETE FROM posts WHERE postID = ?";
 
-	db.query(deleteQuery, [postId], (err, result) => {
+	db.query(deleteQuery, [postID], (err, result) => {
 		if (err) {
 			console.error("Error deleting post:", err.message);
 			return res.status(500).json({ error: "Failed to delete post" });

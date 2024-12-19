@@ -9,7 +9,7 @@ const createPostsTable = () => {
         description TEXT NOT NULL,
         picture VARCHAR(255),
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-        FOREIGN KEY (userID) REFERENCES users(email) ON DELETE CASCADE -- Maintain relationship
+        FOREIGN KEY (userID) REFERENCES users(user_id) ON DELETE CASCADE -- Maintain relationship
     )
   `;
 
