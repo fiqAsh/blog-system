@@ -4,14 +4,14 @@ import db from "./db/connectMysqlDB.js";
 import authroutes from "./routes/auth.routes.js";
 import postroutes from "./routes/post.routes.js";
 import reactionroutes from "./routes/reaction.route.js";
-import createUsersTable from "./models/user.model.js";
-import createPostsTable from "./models/post.model.js";
-import createReactionsTable from "./models/reaction.model.js";
+//import createUsersTable from "./models/user.model.js";
+// import createPostsTable from "./models/post.model.js";
+// import createReactionsTable from "./models/reaction.model.js";
 
-createReactionsTable();
-createPostsTable();
+// createReactionsTable();
+// createPostsTable();
 
-createUsersTable();
+//createUsersTable();
 
 const app = express();
 

@@ -1,33 +1,41 @@
 import db from "../db/connectMysqlDB.js";
+import { generatePostID } from "../utils/generatePostId.js";
 
 export const signup = (req, res) => {
-	const { username, email, password } = req.body;
+	const { phone_no, username, email, password } = req.body;
+	const user_id = generatePostID();
 
 	const checkQuery = "SELECT email FROM users WHERE email = ?";
 
 	db.query(checkQuery, [email], (err, result) => {
 		if (err) {
 			console.error("Error checking email:", err.message);
-			return res.status(500).json({ error: "internal server error" });
+			return res.status(500).json({ error: "Internal server error" });
 		}
 
 		if (result.length > 0) {
+			// Email already exists
 			return res.status(400).json({ error: "Email already exists" });
 		}
 
-		const insertQuery = `INSERT INTO users (username, email, password) VALUES (?, ?, ?)`;
+		const insertQuery = `INSERT INTO users (phone_no, user_id, username, email, password) VALUES (?, ?, ?, ?, ?)`;
 
-		db.query(insertQuery, [username, email, password], (err, result) => {
-			if (err) {
-				console.error("Error inserting user:", err.message);
-				return res.status(500).json({ error: "failed to sign up user" });
+		db.query(
+			insertQuery,
+			[phone_no, user_id, username, email, password],
+			(err, result) => {
+				if (err) {
+					console.error("Error inserting user:", err.message);
+					return res.status(500).json({ error: "Failed to sign up user" });
+				}
+
+				// Successful insertion
+				res.status(201).json({
+					message: "User signed up successfully",
+					userId: user_id, // Return the generated user_id
+				});
 			}
-		});
-
-		res.status(201).json({
-			message: "User signed up successfully",
-			userId: result.insertId,
-		});
+		);
 	});
 };
 
