@@ -3,14 +3,17 @@ import express from "express";
 import db from "./db/connectMysqlDB.js";
 import authroutes from "./routes/auth.routes.js";
 import postroutes from "./routes/post.routes.js";
-import reactionroutes from "./routes/reaction.route.js";
 import boostedroutes from "./routes/boosted.routes.js";
+import commentroutes from "./routes/comment.route.js";
 //import createUsersTable from "./models/user.model.js";
 //import createPostsTable from "./models/post.model.js";
 // import createReactionsTable from "./models/reaction.model.js";
-import createBoostedPostsTable from "./models/boosted.post.model.js";
+//import createBoostedPostsTable from "./models/boosted.post.model.js";
+import createCommentsTable from "./models/comment.model.js";
 
-createBoostedPostsTable();
+createCommentsTable();
+
+//createBoostedPostsTable();
 
 // createReactionsTable();
 //createPostsTable();
@@ -27,9 +30,8 @@ app.get("/", (req, res) => {
 
 app.use("/api/auth", authroutes);
 app.use("/api/posts", postroutes);
-app.use("/api/reactions", reactionroutes);
 app.use("/api/boosted", boostedroutes);
-
+app.use("/api/comments", commentroutes);
 const PORT = 5000;
 
 app.listen(PORT, () => {
