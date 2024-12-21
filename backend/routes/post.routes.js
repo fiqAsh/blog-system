@@ -1,4 +1,5 @@
 import express from "express";
+import { protectRoute } from "../utils/protectRoute.js";
 
 import {
 	createPost,
@@ -10,10 +11,10 @@ import {
 
 const router = express.Router();
 
-router.post("/", createPost);
-router.get("/", getPost);
-router.get("/:userID", getUserPosts);
-router.put("/:postID", updatePost);
-router.delete("/:postId", deletePost);
+router.post("/", protectRoute, createPost);
+router.get("/", protectRoute, getPost);
+router.get("/:userID", protectRoute, getUserPosts);
+router.put("/:postID", protectRoute, updatePost);
+router.delete("/:postId", protectRoute, deletePost);
 
 export default router;

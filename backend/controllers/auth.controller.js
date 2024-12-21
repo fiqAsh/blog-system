@@ -1,6 +1,8 @@
 import db from "../db/connectMysqlDB.js";
 import { generatePostID } from "../utils/generatePostId.js";
+import { generateTokenAndSetCookie } from "../utils/generateToken.js";
 
+// Signup Controller
 export const signup = (req, res) => {
 	const { phone_no, username, email, password } = req.body;
 	const user_id = generatePostID();
@@ -29,6 +31,9 @@ export const signup = (req, res) => {
 					return res.status(500).json({ error: "Failed to sign up user" });
 				}
 
+				// Generate token and set it in a cookie
+				generateTokenAndSetCookie(user_id, res);
+
 				// Successful insertion
 				res.status(201).json({
 					message: "User signed up successfully",
@@ -39,6 +44,7 @@ export const signup = (req, res) => {
 	});
 };
 
+// Login Controller
 export const login = (req, res) => {
 	const { email, password } = req.body;
 
@@ -62,13 +68,31 @@ export const login = (req, res) => {
 			return res.status(401).json({ error: "Invalid password" });
 		}
 
+		// Generate token and set it in a cookie
+		generateTokenAndSetCookie(user.user_id, res);
+
 		// If email and password are correct
 		res.status(200).json({
 			message: "Login successful",
 			user: {
+				userId: user.user_id,
 				username: user.username,
 				email: user.email,
 			},
 		});
+	});
+};
+
+// Logout Controller
+export const logout = (req, res) => {
+	res.cookie("jwt", "", {
+		maxAge: 0, // Expire the cookie immediately
+		httpOnly: true,
+		sameSite: "strict",
+		secure: process.env.NODE_ENV !== "development",
+	});
+
+	res.status(200).json({
+		message: "User logged out successfully",
 	});
 };
