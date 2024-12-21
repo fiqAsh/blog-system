@@ -15,6 +15,6 @@ router.post("/", protectRoute, createPost);
 router.get("/", protectRoute, getPost);
 router.get("/:userID", protectRoute, getUserPosts);
 router.put("/:postID", protectRoute, updatePost);
-router.delete("/:postId", protectRoute, deletePost);
+router.delete("/:postID", protectRoute, deletePost);
 
 export default router;
