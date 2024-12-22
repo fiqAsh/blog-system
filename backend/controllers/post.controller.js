@@ -2,8 +2,9 @@ import db from "../db/connectMysqlDB.js";
 import { generatePostID } from "../utils/generatePostId.js";
 
 export const createPost = (req, res) => {
-	const { userID, title, description, picture } = req.body; // Include userID in the request
-	const postID = generatePostID(); // Generate random 16-character postID
+	const { userID, title, description, picture } = req.body;
+
+	const postID = generatePostID();
 
 	const insertQuery = `INSERT INTO posts (postID, userID, title, description, picture) VALUES (?, ?, ?, ?, ?)`;
 
@@ -39,7 +40,7 @@ export const getPost = (req, res) => {
 };
 
 export const getUserPosts = (req, res) => {
-	const { userID } = req.params; // Use userID from the request parameters
+	const { userID } = req.params;
 
 	const selectQuery = "SELECT * FROM posts WHERE userID = ?";
 
@@ -53,7 +54,7 @@ export const getUserPosts = (req, res) => {
 			return res.status(404).json({ error: "No posts found for this user" });
 		}
 
-		res.status(200).json(results); // Return all posts for the user
+		res.status(200).json(results);
 	});
 };
 
