@@ -2,7 +2,9 @@ import db from "../db/connectMysqlDB.js";
 import { generatePostID } from "../utils/generatePostId.js";
 
 export const sharePost = (req, res) => {
-	const { user_id, post_id, description } = req.body;
+	const { postID } = req.body;
+	const userID = req.user.userId;
+	const { description } = req.body;
 	const share_id = generatePostID();
 
 	const insertQuery = `
@@ -12,7 +14,7 @@ export const sharePost = (req, res) => {
 
 	db.query(
 		insertQuery,
-		[share_id, user_id, post_id, description],
+		[share_id, userID, postID, description],
 		(err, result) => {
 			if (err) {
 				console.error("Error sharing post:", err.message);

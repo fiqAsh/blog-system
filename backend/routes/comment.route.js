@@ -1,4 +1,5 @@
 import express from "express";
+import { protectRoute } from "../utils/protectRoute.js";
 
 import {
 	createComment,
@@ -8,8 +9,8 @@ import {
 
 const router = express.Router();
 
-router.post("/:postID", createComment);
-router.get("/:postID", getComments);
-router.delete("/:commentId", deleteComment);
+router.post("/:postID", protectRoute, createComment);
+router.get("/:postID", protectRoute, getComments);
+router.delete("/:commentId", protectRoute, deleteComment);
 
 export default router;

@@ -2,7 +2,8 @@ import db from "../db/connectMysqlDB.js";
 import { generatePostID } from "../utils/generatePostId.js";
 
 export const createPost = (req, res) => {
-	const { userID, title, description, picture } = req.body;
+	const { title, description, picture } = req.body;
+	const userID = req.user.userId;
 
 	const postID = generatePostID();
 

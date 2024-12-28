@@ -3,15 +3,16 @@ import { generatePostID } from "../utils/generatePostId.js";
 
 export const followUser = (req, res) => {
 	const followid = generatePostID();
-	const { user_id, following_user_id } = req.body;
+	const { following_user_id } = req.params;
+	const userID = req.user.userId;
 
-	if (user_id === following_user_id) {
+	if (userID === following_user_id) {
 		return res.status(400).json({ error: "You cannot follow yourself." });
 	}
 
 	const query = `INSERT INTO following (followid,user_id, following_user_id) VALUES (?, ?, ?)`;
 
-	db.query(query, [followid, user_id, following_user_id], (err, result) => {
+	db.query(query, [followid, userID, following_user_id], (err, result) => {
 		if (err) {
 			console.error("Error following user:", err.message);
 			return res.status(500).json({ error: "Failed to follow user" });
@@ -22,7 +23,8 @@ export const followUser = (req, res) => {
 };
 
 export const unfollowUser = (req, res) => {
-	const { user_id, following_user_id } = req.body;
+	const { following_user_id } = req.params;
+	const user_id = req.user.userId;
 
 	const query = `DELETE FROM following WHERE user_id = ? AND following_user_id = ?`;
 

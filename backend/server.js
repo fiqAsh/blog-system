@@ -13,8 +13,8 @@ import shareroutes from "./routes/share.routes.js";
 import followroutes from "./routes/follow.routes.js";
 
 //tables
-//import createUsersTable from "./models/user.model.js";
-//import createPostsTable from "./models/post.model.js";
+// import createUsersTable from "./models/user.model.js";
+// import createPostsTable from "./models/post.model.js";
 // import createBoostedPostsTable from "./models/boosted.post.model.js";
 // import createCommentsTable from "./models/comment.model.js";
 // import createSharesTable from "./models/share.model.js";
@@ -28,9 +28,9 @@ import followroutes from "./routes/follow.routes.js";
 
 // createBoostedPostsTable();
 
-//createPostsTable();
+// createPostsTable();
 
-//createUsersTable();
+// createUsersTable();
 
 dotenv.config();
 

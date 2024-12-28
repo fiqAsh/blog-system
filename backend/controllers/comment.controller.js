@@ -2,8 +2,12 @@ import db from "../db/connectMysqlDB.js";
 import { generatePostID } from "../utils/generatePostId.js";
 
 export const createComment = (req, res) => {
-	const { postID, userID, comment } = req.body; // Include userID in the request
-	const commentID = generatePostID(); // Generate random 20-character commentID
+	const { postID } = req.params;
+	console.log(postID);
+	const { comment } = req.body;
+	const userID = req.user.userId;
+	console.log(userID);
+	const commentID = generatePostID();
 
 	const insertQuery = `INSERT INTO comments (comment_id, user_id, post_id, comment_text) VALUES (?, ?, ?, ?)`;
 
@@ -41,9 +45,8 @@ export const getComments = (req, res) => {
 };
 
 export const deleteComment = (req, res) => {
-	const { commentId } = req.params; // Get the comment ID from the request parameters
+	const { commentId } = req.params;
 
-	// SQL query to delete the comment by ID
 	const deleteQuery = "DELETE FROM comments WHERE comment_id = ?";
 
 	db.query(deleteQuery, [commentId], (err, result) => {
@@ -53,11 +56,9 @@ export const deleteComment = (req, res) => {
 		}
 
 		if (result.affectedRows === 0) {
-			// If no rows were affected, the comment does not exist
 			return res.status(404).json({ error: "Comment not found" });
 		}
 
-		// Successfully deleted the comment
 		res.status(200).json({ message: "Comment deleted successfully" });
 	});
 };
