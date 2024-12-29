@@ -1,6 +1,7 @@
 import express from "express";
 import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
+import cors from "cors";
 
 import db from "./db/connectMysqlDB.js";
 
@@ -38,6 +39,12 @@ const app = express();
 
 app.use(express.json());
 app.use(cookieParser());
+app.use(
+	cors({
+		origin: "http://localhost:5173", // Frontend URL
+		credentials: true, // Allow cookies and other credentials
+	})
+);
 
 app.get("/", (req, res) => {
 	res.send("server is running");

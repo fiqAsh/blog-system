@@ -96,3 +96,44 @@ export const logout = (req, res) => {
 		message: "User logged out successfully",
 	});
 };
+
+// Get All Users
+export const getAllUsers = (req, res) => {
+	const selectQuery = "SELECT user_id, username, email FROM users";
+
+	db.query(selectQuery, (err, results) => {
+		if (err) {
+			console.error("Error fetching users:", err.message);
+			return res.status(500).json({ error: "Failed to fetch users" });
+		}
+
+		res.status(200).json(results);
+	});
+};
+
+// Get Current User Controller
+export const getCurrentUser = (req, res) => {
+	// The `req.user` is set by the `protectRoute` middleware after validating the token
+	const userID = req.user.userId;
+
+	// Query the database to get user details
+	const query = "SELECT user_id, username, email FROM users WHERE user_id = ?";
+	db.query(query, [userID], (err, results) => {
+		if (err) {
+			console.error("Error fetching user data:", err.message);
+			return res.status(500).json({ error: "Internal server error" });
+		}
+
+		if (results.length === 0) {
+			return res.status(404).json({ error: "User not found" });
+		}
+
+		const user = results[0];
+
+		res.status(200).json({
+			userId: user.user_id,
+			username: user.username,
+			email: user.email,
+		});
+	});
+};

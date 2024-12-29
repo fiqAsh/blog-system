@@ -1,0 +1,14 @@
+.user-list {
+	border: 1px solid #ddd;
+	padding: 10px;
+	border-radius: 4px;
+}
+
+.user-list ul {
+	list-style-type: none;
+	padding: 0;
+}
+
+.user-list li {
+	margin-bottom: 5px;
+}
