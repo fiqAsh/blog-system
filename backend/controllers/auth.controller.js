@@ -113,10 +113,8 @@ export const getAllUsers = (req, res) => {
 
 // Get Current User Controller
 export const getCurrentUser = (req, res) => {
-	// The `req.user` is set by the `protectRoute` middleware after validating the token
 	const userID = req.user.userId;
 
-	// Query the database to get user details
 	const query = "SELECT user_id, username, email FROM users WHERE user_id = ?";
 	db.query(query, [userID], (err, results) => {
 		if (err) {

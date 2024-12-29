@@ -10,8 +10,8 @@ const PostsList = ({ userId }) => {
 		try {
 			const token = localStorage.getItem("token");
 			const endpoint = filter
-				? `http://localhost:5000/posts/${userId}`
-				: "http://localhost:5000/posts";
+				? `http://localhost:5000/api/posts/${userId}`
+				: "http://localhost:5000/api/posts";
 			const response = await axios.get(endpoint, {
 				headers: {
 					Authorization: `Bearer ${token}`,

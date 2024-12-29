@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const Login = () => {
@@ -9,6 +10,7 @@ const Login = () => {
 
 	const [message, setMessage] = useState("");
 	const [error, setError] = useState("");
+	const navigate = useNavigate();
 
 	const handleChange = (e) => {
 		const { name, value } = e.target;
@@ -33,7 +35,9 @@ const Login = () => {
 			);
 			setMessage(response.data.message);
 
-			console.log("User Data:", response.data.user);
+			localStorage.setItem("user", JSON.stringify(response.data.user));
+
+			navigate("/");
 		} catch (err) {
 			setError(err.response?.data?.error || "Something went wrong!");
 		}

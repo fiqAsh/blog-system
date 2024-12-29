@@ -22,7 +22,7 @@ const CreatePostForm = ({ onPostCreated }) => {
 				}
 			);
 
-			onPostCreated(response.data); // Inform parent component about the new post
+			onPostCreated(response.data);
 			setTitle("");
 			setDescription("");
 			setPicture("");
